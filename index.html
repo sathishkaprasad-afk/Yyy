@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4G X CHEATZ</title>
+<style>
+:root{  
+    --primary:#008cff;  
+    --primary-dark:#0066ff;  
+    --primary-glow:rgba(0,140,255,.65);  
+    --green:#00ff66;  
+    --cyan:#00c8ff;  
+    --bg-dark:#030508;  
+    --card-bg:rgba(11, 16, 26, 0.90);  
+    --border-color:rgba(0,140,255,0.35);  
+    --text-gray:#949daf;  
+}  
+  
+*{  
+    margin:0;  
+    padding:0;  
+    box-sizing:border-box;  
+    font-family:Inter,system-ui,-apple-system,sans-serif;  
+}  
+  
+html{ scroll-behavior:smooth; }  
+  
+body{  
+    background:var(--bg-dark);  
+    color:#fff;  
+    overflow-x:hidden;  
+    min-height:100vh;  
+    padding-bottom:75px;  
+    position: relative;
+}  
+
+/* BACKGROUND IMAGE STYLING - AWESOME GAMING BG */
+.bg-video-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+    background: #030508 url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920&auto=format&fit=crop') no-repeat center center/cover;
+}
+
+.bg-video-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 5, 8, 0.72);
+    z-index: -1;
+}
+
+/* PLAY OVERLAY SCREEN */
+#playOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 5, 8, 0.98);
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: opacity 0.4s ease;
+}
+
+.start-site-btn {
+    padding: 16px 38px;
+    background: linear-gradient(135deg, #008cff, #0066ff);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 25px var(--primary-glow);
+    animation: rgbGlow 2s infinite;
+}
+  
+button, input, textarea, select{ font-family:inherit; }  
+button{ -webkit-tap-highlight-color:transparent; }  
+
+/* ANNOUNCEMENT BAR */
+.announcement-bar {
+    background: linear-gradient(90deg, #ff0055, #008cff);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 900;
+    text-align: center;
+    padding: 6px 10px;
+    letter-spacing: 1px;
+    display: none;
+}
+
+/* LIVE POPUP NOTIFICATION */
+.live-toast-notif {
+    position: fixed;
+    top: 75px;
+    right: 20px;
+    background: rgba(15, 20, 30, 0.96);
+    border: 2px solid #00ffcc;
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
+    padding: 12px 18px;
+    border-radius: 12px;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideInNotif 0.4s ease-out;
+}
+
+@keyframes slideInNotif {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+  
+header{  
+    display:flex;  
+    align-items:center;  
+    justify-content:space-between;
+    padding:15px 6%;  
+    background:rgba(3,5,8,0.85);  
+    backdrop-filter:blur(15px);  
+    border-bottom:1px solid rgba(0,140,255,.25);  
+    position:sticky;  
+    top:0;  
+    z-index:100;  
+}  
+  
+.logo-wrapper{  
+    display:flex;  
+    align-items:center;  
+    gap:12px;  
+    cursor:pointer;  
+    user-select:none;  
+}  
+  
+.logo-img{  
+    width:44px;  
+    height:44px;  
+    border-radius:50%;  
+    border:2px solid var(--primary);  
+    box-shadow:0 0 12px var(--primary-glow);  
+    object-fit:cover;  
+}  
+  
+.logo-text{  
+    font-size:20px;  
+    font-weight:900;  
+    letter-spacing:1.5px;  
+}  
+  
+.logo-text span{  
+    color:var(--primary);  
+    text-shadow:0 0 10px var(--primary-glow);  
+}  
+
+.sl-clock-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(0, 140, 255, 0.1);
+    border: 1px solid rgba(0, 200, 255, 0.4);
+    padding: 6px 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 140, 255, 0.2);
+}
+
+.sl-clock-label {
+    font-size: 8px;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 1px;
+}
+
+.sl-clock-time {
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px var(--primary-glow);
+}  
+  
+.page-section{  
+    display:none;  
+    max-width:900px;  
+    margin:auto;  
+    padding:35px 20px;  
+}  
+  
+.page-section.active{ display:block; }  
+  
+.hero{  
+    text-align:center;  
+    padding:35px 0 25px;  
+}  
+
+@keyframes blinkDot {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--green); }
+    50% { opacity: 0.3; transform: scale(0.85); box-shadow: 0 0 2px var(--green); }
+}
+
+.status-badge{  
+    display:inline-flex;  
+    align-items:center;  
+    gap:8px;  
+    background: rgba(0, 140, 255, 0.12);  
+    border: 1px solid rgba(0, 140, 255, 0.4);  
+    color: var(--cyan);  
+    padding: 7px 16px;  
+    border-radius: 20px;  
+    font-size: 11px;  
+    font-weight: 800;  
+    letter-spacing: 1.5px;  
+    margin-bottom: 25px;  
+    box-shadow: 0 0 15px rgba(0, 140, 255, 0.25);
+}  
+  
+.active-dot{  
+    width: 8px;  
+    height: 8px;  
+    border-radius: 50%;  
+    background: var(--green);  
+    box-shadow: 0 0 8px var(--green);  
+    animation: blinkDot 1.2s infinite ease-in-out;
+}  
+  
+.hero h1{  
+    font-size:clamp(38px,8vw,62px);  
+    font-weight:950;  
+    letter-spacing:4px;  
+    text-shadow:0 0 25px var(--primary-glow);  
+    margin-bottom:20px;  
+}  
+  
+.typing-box{  
+    margin:0 auto 28px;  
+    min-height:30px;  
+    color:var(--primary);  
+    font-size:20px;  
+    font-weight:900;  
+    letter-spacing:2px;  
+    text-shadow:0 0 12px var(--primary-glow);  
+}  
+
+.typing-cursor {
+    display: inline-block;
+    background-color: var(--primary);
+    width: 2px;
+    animation: blinkCursor 0.7s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+  
+.hero p{  
+    color:var(--text-gray);  
+    font-size:15px;  
+    line-height:1.7;  
+    max-width:680px;  
+    margin:auto auto 30px;  
+}  
+  
+.stats-grid{  
+    display:grid;  
+    grid-template-columns:repeat(3,1fr);  
+    gap:15px;  
+    margin-bottom:30px;  
+}  
+  
+.stat-card{  
+    background:var(--card-bg);  
+    border:1px solid var(--border-color);  
+    border-radius:12px;  
+    padding:20px 10px;  
+    text-align:center;  
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}  
+  
+.stat-card h2{  
+    font-size:28px;  
+    color:var(--primary);  
+    text-shadow:0 0 10px var(--primary-glow);  
+}  
+  
+.stat-card p{  
+    font-size:10px;  
+    color:var(--text-gray);  
+    font-weight:800;  
+    letter-spacing:1.5px;  
+}  
+  
+.btn{  
+    width:100%;  
+    padding:14px 20px;  
+    border-radius:8px;  
+    font-size:13px;  
+    font-weight:900;  
+    letter-spacing:1px;  
+    cursor:pointer;  
+    border:none;  
+    display:flex;  
+    align-items:center;  
+    justify-content:center;  
+    gap:8px;  
+    text-decoration:none;  
+    transition:.2s;  
+}  
+  
+.btn-primary{  
+    background:linear-gradient(135deg, #008cff, #0066ff);  
+    color:white;  
+    box-shadow:0 0 15px var(--primary-glow);  
+}  
+  
+.btn-primary:hover{  
+    transform:translateY(-2px);  
+    box-shadow:0 0 28px var(--primary-glow);  
+}  
+  
+.btn-secondary{  
+    background:rgba(0,140,255,.12);  
+    color:white;  
+    border:1px solid rgba(0,140,255,.45);  
+}  
+  
+.why-section{ margin-top:65px; margin-bottom:35px; }  
+.why-small-title{ color:var(--primary); font-size:13px; font-weight:900; letter-spacing:4px; margin-bottom:18px; }  
+.why-title{ font-size:clamp(32px,7vw,50px); line-height:1.15; font-weight:950; margin-bottom:45px; }  
+.why-title span{ color:var(--primary); }  
+.features-list{ display:flex; flex-direction:column; gap:22px; }  
+  
+.feature-card{  
+    display:flex;  
+    align-items:flex-start;  
+    gap:22px;  
+    width:100%;  
+    padding:27px 25px;  
+    min-height:150px;  
+    border-radius:22px;  
+    background:var(--card-bg);  
+    border:1px solid var(--border-color);  
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+}  
+  
+.feature-icon{  
+    width:58px; height:58px; min-width:58px;  
+    border-radius:16px; background:rgba(0,140,255,0.15);  
+    border: 1px solid rgba(0,140,255,0.4);
+    display:flex; align-items:center; justify-content:center; font-size:25px;  
+}  
+.feature-content{ flex:1; }  
+.feature-title{ font-size:17px; font-weight:900; margin-bottom:12px; }  
+.feature-text{ color:#b0b8c5; font-size:12px; line-height:1.9; }  
+  
+.social-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:20px; }  
+.social-btn{ padding:14px; border-radius:8px; color:#fff; text-decoration:none; font-size:12px; font-weight:900; text-align:center; transition:.2s; }  
+.social-whatsapp{ background:#25D366; color:#061b0d; }  
+.social-telegram{ background:#229ED9; }  
+.social-tiktok{ background:#111; border:1px solid #555; }  
+.social-youtube{ background:#FF0000; }  
+.social-facebook{ background:#1877F2; }  
+  
+@keyframes rgbGlow {
+    0% { border-color: #ff0000; box-shadow: 0 0 12px rgba(255,0,0,0.6); }
+    33% { border-color: #00ff66; box-shadow: 0 0 12px rgba(0,255,102,0.6); }
+    66% { border-color: #008cff; box-shadow: 0 0 12px rgba(0,140,255,0.6); }
+    100% { border-color: #ff0000; box-shadow: 0 0 12px rgba(255,0,0,0.6); }
+}
+
+.category-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    min-height: auto;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 2px solid #008cff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    animation: rgbGlow 3s infinite linear;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,140,255,0.3);
+}
+
+.category-name {
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: #fff;
+}
+
+.category-count {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #cbd5e1;
+}  
+  
+.category-header{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }  
+.back-btn{ border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.08); color:#fff; border-radius:9px; padding:10px 13px; cursor:pointer; font-weight:800; }  
+  
+.projects-grid, .proofs-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }  
+.project-card, .proof-card{ background:var(--card-bg); border:1px solid var(--border-color); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:12px; position:relative; box-shadow: 0 8px 25px rgba(0,0,0,0.6); }  
+.project-video{ position:relative; width:100%; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px; background:#000; }  
+.project-video iframe{ position:absolute; inset:0; width:100%; height:100%; border:none; }  
+
+.mod-item-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.mod-item-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid var(--primary);
+}
+  
+.project-name{ font-size:18px; font-weight:900; }  
+.project-platform{ color:var(--cyan); font-size:10px; font-weight:800; margin-top:4px; }  
+.project-stock{ font-size:9px; padding:5px 8px; border-radius:5px; color:var(--green); background:rgba(0,255,100,.12); border:1px solid rgba(0,255,100,.5); }  
+.project-stock.out{ color:#ff1744; background:rgba(255,0,55,.12); border-color:#ff1744; }  
+.project-price{ color:var(--primary); font-weight:900; font-size:16px; }  
+.project-description{ font-size:13px; color:#b0b8c5; line-height:1.6; }  
+  
+.buy-btn{ width:100%; border:0; border-radius:8px; padding:13px; background:linear-gradient(135deg, #008cff, #0066ff); color:#fff; font-size:12px; font-weight:900; cursor:pointer; transition:.2s; }  
+.buy-btn:disabled{ background:#333; color:#777; cursor:not-allowed; }  
+
+.share-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #cbd5e1;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+}
+.share-btn:hover { background: rgba(0,140,255,0.3); color: #fff; }
+  
+.proof-img{ width:100%; height:180px; object-fit:cover; border-radius:8px; border:1px solid var(--border-color); }  
+  
+.empty-state{ width:100%; min-height:200px; grid-column:1/-1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background:var(--card-bg); border:1px dashed rgba(0,140,255,0.3); border-radius:14px; padding:30px; box-shadow: 0 8px 25px rgba(0,0,0,0.6); }  
+  
+.bottom-nav{ position:fixed; bottom:0; left:0; width:100%; background:rgba(3,5,8,0.92); backdrop-filter:blur(18px); border-top:1px solid rgba(0,140,255,.25); display:flex; justify-content:space-around; padding:9px 7px; z-index:999; }  
+.nav-item{ color:var(--text-gray); font-size:10px; font-weight:900; cursor:pointer; padding:10px 14px; border-radius:8px; }  
+.nav-item.active{ color:#fff; background:linear-gradient(135deg, #008cff, #0066ff); box-shadow:0 0 12px rgba(0,140,255,.45); }  
+  
+.modal-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.85); backdrop-filter:blur(12px); display:none; justify-content:center; align-items:center; z-index:5000; padding:15px; }  
+.modal-overlay.active{ display:flex; }  
+.modal-box{ background:#0b101a; border:1px solid var(--primary); box-shadow:0 0 30px var(--primary-glow); border-radius:14px; padding:24px; width:100%; max-width:500px; max-height:92vh; overflow-y:auto; }  
+.modal-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }  
+.close-btn{ background:transparent; border:0; color:#aaa; font-size:20px; cursor:pointer; }  
+  
+.admin-nav-btns{ display:grid; grid-template-columns:repeat(5,1fr); gap:5px; margin-bottom:20px; }  
+.admin-nav-btns button{ padding:8px 2px; font-size:9px; font-weight:800; background:rgba(255,255,255,.05); border:1px solid var(--border-color); color:#fff; border-radius:6px; cursor:pointer; }  
+.admin-nav-btns button.active{ background:var(--primary); border-color:var(--primary); }  
+  
+.admin-tab{ display:none; }  
+.admin-tab.active{ display:block; }  
+  
+.form-group{ margin-bottom:14px; }  
+.form-group label{ display:block; font-size:12px; color:var(--text-gray); margin-bottom:6px; }  
+
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+}
+.custom-select-trigger {
+    width: 100%;
+    padding: 12px 14px;
+    background: #030508;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.custom-select-trigger:after {
+    content: '▼';
+    font-size: 10px;
+    color: var(--primary);
+}
+.custom-options {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    right: 0;
+    background: #0b101a;
+    border: 1px solid rgba(0,140,255,0.3);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    display: none;
+    z-index: 100;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+.custom-select-wrapper.open .custom-options { display: block; }
+.custom-option {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #cbd5e1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s;
+}
+.custom-option:hover { background: rgba(0, 140, 255, 0.2); color: #fff; }
+.custom-option.selected { color: var(--primary); font-weight: 800; }
+.custom-option.selected:before { content: '✓ '; font-weight: 900; }
+
+.form-control{ width:100%; padding:12px; background:#030508; border:1px solid rgba(255,255,255,.15); border-radius:8px; color:#fff; outline:none; font-size:13px; }  
+textarea.form-control{ resize:vertical; min-height:90px; }  
+.form-row{ display:flex; gap:10px; }  
+.btn-cancel{ background:rgba(255,255,255,.08); color:#ccc; }  
+
+.reset-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255,255,255,0.15);
+}
+.reset-title {
+    font-size: 13px;
+    color: #ff1744;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+.btn-reset {
+    background: rgba(255, 23, 68, 0.12);
+    border: 1px solid rgba(255, 23, 68, 0.4);
+    color: #ff1744;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+    margin-bottom: 8px;
+}
+.btn-reset:hover {
+    background: rgba(255, 23, 68, 0.25);
+}  
+
+.admin-list{ margin-top:15px; display:flex; flex-direction:column; gap:8px; }  
+.admin-list-item{ padding:12px; background:rgba(255,255,255,.04); border:1px solid var(--border-color); border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px; }  
+.edit-btn, .delete-btn{ border:0; border-radius:6px; padding:8px 12px; color:#fff; font-size:11px; font-weight:800; cursor:pointer; }  
+.edit-btn{ background:#008cff; }  
+.delete-btn{ background:#ff1744; }  
+
+@keyframes blinkGlow {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 12px #ff0055); }
+    50% { opacity: 0.7; filter: drop-shadow(0 0 4px #008cff); }
+}
+.blinking-dev-btn {
+    animation: blinkGlow 1.5s infinite;
+    background: linear-gradient(135deg, #ff0055, #7928ca);
+    color: white;
+    font-weight: 900;
+    padding: 14px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    margin-top: 15px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+/* BIG SIZE FOR SUPPORT PAGE PHOTOS */
+.dev-profile-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    margin: 10px auto 15px;
+    display: block;
+    object-fit: cover;
+    box-shadow: 0 0 25px var(--primary-glow);
+    background: #0b101a;
+}
+
+.btn-icon-logo {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+@media(max-width:600px){  
+    header{ padding:15px 17px; }  
+    .admin-nav-btns{ grid-template-columns:repeat(3,1fr); }  
+}  
+</style>  
+</head>  
+<body>  
+
+<!-- START INTERACTION OVERLAY -->
+<div id="playOverlay">
+    <h2 style="color:#008cff; font-weight:900; letter-spacing:2px; text-shadow:0 0 15px var(--primary-glow);">S4G X CHEATZ</h2>
+    <p style="color:var(--text-gray); font-size:13px;">Tap below to start website</p>
+    <button class="start-site-btn" onclick="startWebsite()">ENTER WEBSITE 🚀</button>
+</div>
+
+<!-- BACKGROUND IMAGE CONTAINER -->
+<div class="bg-video-container"></div>
+<div class="bg-video-overlay"></div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar" id="announcementBar">🔥 NEW VIP MOD APPS & BLUEPRINTS AVAILABLE NOW!</div>
+
+<header>  
+    <div class="logo-wrapper" onclick="handleLogoClick()">  
+        <img src="https://i.ibb.co/tppN1kF0/logo.jpg" id="headerLogoImg" class="logo-img" alt="Logo">  
+        <div class="logo-text">S4G <span>X CHEATZ</span></div>  
+    </div>  
+
+    <div class="sl-clock-box">
+        <span class="sl-clock-label">🇱🇰 SRI LANKA TIME</span>
+        <span class="sl-clock-time" id="slClock">00:00:00 AM</span>
+    </div>
+</header>  
+
+<!-- HOME PAGE -->
+<section id="homePage" class="page-section active">  
+    <div class="hero">  
+        <div class="status-badge"><span class="active-dot"></span> VERSION 2026 ACTIVE</div>  
+        <h1>UNDETECTED</h1>  
+        <div class="typing-box"><span id="typingText"></span><span class="typing-cursor">&nbsp;</span></div>  
+        <p>S4G X CHEATZ crafts high-performance assistants, settings optimization blueprints and game utility modules for gaming players.</p>  
+
+        <div class="stats-grid">  
+            <div class="stat-card"><h2 id="customerCount">0</h2><p>CUSTOMERS</p></div>  
+            <div class="stat-card"><h2 id="projectCount">0</h2><p>PROJECTS</p></div>  
+            <div class="stat-card"><h2 id="modApkCount">0</h2><p>MOD APPS</p></div>  
+        </div>  
+
+        <div style="display:flex; flex-direction:column; gap:12px; max-width:350px; margin:auto">  
+            <button class="btn btn-primary" onclick="switchPage('storyPage')">EXPLORE ARSENAL →</button>  
+            <button class="btn btn-secondary" onclick="switchPage('proofsPage')">PAYMENT PROOFS 🛡</button>  
+        </div>  
+    </div>  
+
+    <section class="why-section">  
+        <div class="why-small-title">UNMATCHED POWER</div>  
+        <h2 class="why-title">WHY CHOOSE <span>S4G.</span></h2>  
+        <div class="features-list">  
+            <div class="feature-card"><div class="feature-icon">✧</div><div class="feature-content"><h3 class="feature-title">PREMIUM GAMING PROJECTS</h3><p class="feature-text">Browse projects organized by Android, iOS and PC categories.</p></div></div>  
+            <div class="feature-card"><div class="feature-icon">⚡</div><div class="feature-content"><h3 class="feature-title">INSTANT ORDER</h3><p class="feature-text">Select a project and contact us directly through WhatsApp.</p></div></div>  
+        </div>  
+    </section>  
+
+    <div style="margin-top:55px; text-align:center">  
+        <h3 style="font-size:13px; color:var(--text-gray); letter-spacing:2px">NEED HELP OR WANT TO BUY?</h3>  
+        <div class="social-grid">  
+            <a href="#" id="linkWhatsapp" class="social-btn social-whatsapp" onclick="incrementCustomer()" target="_blank">WHATSAPP</a>  
+            <a href="#" id="linkWaChannel" class="social-btn social-whatsapp" style="background:#128C7E;" target="_blank">WA CHANNEL</a>  
+            <a href="#" id="linkTelegram" class="social-btn social-telegram" target="_blank">TELEGRAM</a>  
+            <a href="#" id="linkTiktok" class="social-btn social-tiktok" target="_blank">TIKTOK</a>  
+            <a href="#" id="linkYoutube" class="social-btn social-youtube" target="_blank">S4G X CHEATZ</a>  
+            <a href="#" id="linkFb" class="social-btn social-facebook" target="_blank" style="grid-column:span 2">FACEBOOK PAGE</a>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- STORY / CATEGORIES PAGE -->
+<section id="storyPage" class="page-section">  
+    <div style="font-size:32px; font-weight:950; margin-bottom:6px;">STORY</div>  
+    <div style="color:var(--text-gray); font-size:13px; margin-bottom:25px;">Select your platform or category</div>  
+    
+    <div class="category-grid">  
+        <div class="category-card" onclick="openCategory('iOS')">  
+            <div class="category-name">iOS</div>  
+            <div class="category-count" id="iosCount">0 PRODUCTS</div>  
+        </div>  
+        <div class="category-card" onclick="openCategory('Android')">  
+            <div class="category-name">ANDROID</div>  
+            <div class="category-count" id="androidCount">0 PRODUCTS</div>  
+        </div>  
+        <div class="category-card" onclick="openCategory('PC')">  
+            <div class="category-name">PC</div>  
+            <div class="category-count" id="pcCount">0 PRODUCTS</div>  
+        </div>  
+        <div class="category-card" onclick="openModSelection()">  
+            <div>
+                <div class="category-name" style="color:#00ffcc;">MOD APP FREE</div>  
+                <small style="color:#aaa; font-size:10px;">Free & Paid Mods</small>
+            </div>
+            <div class="category-count" id="modCount" style="color:#00ffcc;">0 MODS</div>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- MOD APP TYPE SELECTION PAGE -->
+<section id="modTypePage" class="page-section">  
+    <div class="category-header">  
+        <button class="back-btn" onclick="switchPage('storyPage')">← BACK</button>  
+        <div>  
+            <h2 style="color:#00ffcc;">MOD APP FREE CATEGORIES</h2>  
+            <small style="color:var(--text-gray)">Select Type</small>  
+        </div>  
+    </div>  
+    
+    <div class="category-grid">  
+        <div class="category-card" onclick="openModCategory('Free')">  
+            <div class="category-name" style="color:#00ff66;">FREE MOD APP</div>  
+            <div class="category-count" id="freeModCount">0 MODS</div>  
+        </div>  
+        <div class="category-card" onclick="openModCategory('Paid')">  
+            <div class="category-name" style="color:#ff0055;">PAID MOD APP</div>  
+            <div class="category-count" id="paidModCount">0 MODS</div>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- CATEGORY PRODUCTS LIST PAGE -->
+<section id="categoryPage" class="page-section">  
+    <div class="category-header">  
+        <button class="back-btn" id="categoryBackBtn" onclick="switchPage('storyPage')">← BACK</button>  
+        <div>  
+            <h2 id="categoryTitle" style="color:var(--primary)">PROJECTS</h2>  
+            <small id="categorySubtitle" style="color:var(--text-gray)">Products</small>  
+        </div>  
+    </div>  
+    <div class="projects-grid" id="categoryProjectsContainer"></div>  
+</section>  
+
+<!-- PROOFS PAGE -->
+<section id="proofsPage" class="page-section">  
+    <h2 style="color:var(--primary); margin-bottom:10px">PAYMENT PROOFS</h2>  
+    <p style="color:var(--text-gray); font-size:14px; margin-bottom:20px">Customer feedback and payment confirmations.</p>  
+    <div class="proofs-grid" id="proofsContainer"></div>  
+</section>  
+
+<!-- SUPPORT PAGE -->
+<section id="supportPage" class="page-section" style="text-align:center;">  
+    <h2 style="color:var(--primary); margin-bottom:10px">GET SUPPORT</h2>  
+    <p style="color:var(--text-gray); font-size:14px; margin-bottom:20px">Reach out to us directly through WhatsApp.</p>  
+    
+    <div style="max-width:400px; margin:auto; display:flex; flex-direction:column; gap:16px;">  
+
+        <div style="background:var(--card-bg); padding:20px; border-radius:15px; border:1px solid var(--border-color); box-shadow: 0 8px 25px rgba(0,0,0,0.6);">
+            <img src="https://i.ibb.co/R4bCH8PC/dev.jpg" id="devProfileImg" class="dev-profile-img" alt="Dev Photo">
+            <h3 style="font-size:16px;">S4G Developer Team Contact</h3>
+            <p style="font-size:12px; color:var(--text-gray); margin-top:5px;">Contact lead developer directly</p>  
+            
+            <a href="#" id="devContactBtn" class="blinking-dev-btn" onclick="incrementCustomer()" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="btn-icon-logo" alt="WhatsApp">
+                <span>S4G DEVELOPER TEAM CONTACT</span>
+            </a>
+        </div>
+
+        <div style="background:var(--card-bg); padding:20px; border-radius:15px; border:1px solid var(--border-color); box-shadow: 0 8px 25px rgba(0,0,0,0.6);">
+            <img src="https://i.ibb.co/N64f43X2/contact.jpg" id="s4gContactImg" class="dev-profile-img" alt="S4G Photo">
+            <h3 style="font-size:16px;">S4G Contact</h3>
+            <p style="font-size:12px; color:var(--text-gray); margin-top:5px;">Direct support line</p>  
+            
+            <a href="#" id="s4gContactBtn" class="blinking-dev-btn" style="background:linear-gradient(135deg, #008cff, #00c8ff);" onclick="incrementCustomer()" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="btn-icon-logo" alt="WhatsApp">
+                <span>S4G CONTACT</span>
+            </a>
+        </div>
+
+    </div>  
+</section>  
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">  
+    <span class="nav-item active" onclick="switchPage('homePage')">🏠 HOME</span>  
+    <span class="nav-item" onclick="switchPage('storyPage')">🛒 STORY</span>  
+    <span class="nav-item" onclick="switchPage('proofsPage')">🛡 PROOFS</span>  
+    <span class="nav-item" onclick="switchPage('supportPage')">💬 SUPPORT</span>  
+</nav>  
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal-box" style="max-width:350px;">
+        <div class="modal-header">
+            <h2>ADMIN LOGIN</h2>
+            <button class="close-btn" onclick="closeModal('loginModal')">✕</button>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="adminPassword" class="form-control" placeholder="Enter password">
+        </div>
+        <button class="btn btn-primary" onclick="adminLogin()">LOGIN</button>
+    </div>
+</div>
+
+<!-- ADMIN CONTROL PANEL MODAL -->
+<div class="modal-overlay" id="adminModal">  
+    <div class="modal-box">  
+        <div class="modal-header">  
+            <h2>ADMIN CONTROL PANEL</h2>  
+            <button class="close-btn" onclick="closeAdmin()">✕</button>  
+        </div>  
+
+        <div class="admin-nav-btns">  
+            <button class="active" onclick="switchAdminTab('tabSettings', this)">SETTINGS</button>  
+            <button onclick="switchAdminTab('tabProject', this)">PROJECT</button>  
+            <button onclick="switchAdminTab('tabMod', this)">MOD APP</button>  
+            <button onclick="switchAdminTab('tabProof', this)">PROOF</button>  
+            <button onclick="switchAdminTab('tabManage', this)">MANAGE</button>  
+        </div>  
+
+        <!-- SETTINGS TAB -->
+        <div id="tabSettings" class="admin-tab active">  
+            <div class="form-group"><label>WhatsApp Number</label><input id="settingWhatsapp" class="form-control" placeholder="94712345678"></div>  
+            <div class="form-group"><label>WhatsApp Channel Link</label><input id="settingWaChannel" class="form-control" placeholder="https://whatsapp.com/channel/..."></div>  
+            <div class="form-group"><label>Announcement Bar Text (Optional)</label><input id="settingNotice" class="form-control" placeholder="🔥 New VIP Mods Available!"></div>  
+            <div class="form-group"><label>Telegram Link</label><input id="settingTelegram" class="form-control" placeholder="https://t.me/..."></div>  
+            <div class="form-group"><label>TikTok Link</label><input id="settingTiktok" class="form-control" placeholder="https://tiktok.com/..."></div>  
+            <div class="form-group"><label>YouTube Link</label><input id="settingYoutube" class="form-control" placeholder="https://youtube.com/..."></div>  
+            <div class="form-group"><label>Facebook Link</label><input id="settingFacebook" class="form-control" placeholder="https://facebook.com/..."></div>  
+            <div class="form-group"><label>Typing Text</label><input id="settingTyping" class="form-control" placeholder="Premium S4G X CHEATZ Assistant"></div>  
+            <div class="form-group"><label>Gaming Logo (Image URL)</label><input id="settingHeaderLogo" class="form-control" placeholder="https://..."></div>
+            <div class="form-group"><label>Developer WhatsApp Number</label><input id="settingDevNumber" class="form-control" placeholder="94700000000"></div>  
+            <div class="form-group"><label>Developer Photo DP (Image URL)</label><input id="settingDevPhoto" class="form-control" placeholder="https://..."></div>  
+            <div class="form-group"><label>S4G Contact WhatsApp Number</label><input id="settingS4gNumber" class="form-control" placeholder="94700000000"></div>  
+            <div class="form-group"><label>S4G Contact Logo/DP (Image URL)</label><input id="settingS4gPhoto" class="form-control" placeholder="https://..."></div>  
+            <button class="btn btn-primary" onclick="saveSettingsFromAdmin()">SAVE SETTINGS</button>  
+        </div>  
+
+        <!-- ADD MOD APP TAB -->
+        <div id="tabMod" class="admin-tab">  
+            <h3 style="margin-bottom:15px">ADD MOD APP</h3>  
+            <div class="form-group"><label>Mod Name</label><input id="modName" class="form-control" placeholder="Mod Name"></div>  
+            <div class="form-group"><label>Mod Image URL</label><input id="modImage" class="form-control" placeholder="https://..."></div>  
+            
+            <div class="form-group">  
+                <label>Platform / Category</label>  
+                <div class="custom-select-wrapper" id="customModPlatformWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomSelect('customModPlatformWrapper')">
+                        <span id="customModPlatformLabel">Android</span>
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option selected" onclick="selectCustomOption('customModPlatformWrapper', 'Android', 'Android')">Android</div>
+                        <div class="custom-option" onclick="selectCustomOption('customModPlatformWrapper', 'iOS', 'iOS')">iOS</div>
+                        <div class="custom-option" onclick="selectCustomOption('customModPlatformWrapper', 'PC', 'PC')">PC</div>
+                    </div>
+                    <input type="hidden" id="modPlatform" value="Android">
+                </div>
+            </div>  
+
+            <div class="form-group">  
+                <label>Type</label>  
+                <div class="custom-select-wrapper" id="customModTypeWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomSelect('customModTypeWrapper')">
+                        <span id="customModTypeLabel">Free Mod</span>
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option selected" onclick="selectCustomOption('customModTypeWrapper', 'Free', 'Free Mod'); handleModTypeChange('Free');">Free Mod</div>
+                        <div class="custom-option" onclick="selectCustomOption('customModTypeWrapper', 'Paid', 'Paid Mod'); handleModTypeChange('Paid');">Paid Mod</div>
+                    </div>
+                    <input type="hidden" id="modType" value="Free">
+                </div>
+            </div>  
+
+            <div class="form-group" id="modPriceGroup" style="display:none;">
+                <label>Mod Price</label>
+                <input id="modPrice" class="form-control" placeholder="e.g. 1500 LKR">
+            </div>
+
+            <div class="form-group" id="modLinkGroup">
+                <label>Download Link / APK Link</label>
+                <input id="modLink" class="form-control" placeholder="https://...">
+            </div>  
+            <button class="btn btn-primary" onclick="saveMod()">SAVE MOD APP</button>  
+        </div>  
+
+        <!-- ADD/EDIT PROJECT TAB -->
+        <div id="tabProject" class="admin-tab">  
+            <h3 id="projectFormTitle" style="margin-bottom:15px">ADD PROJECT</h3>  
+            <div class="form-group"><label>Project Name</label><input id="projectName" class="form-control" placeholder="Project Name"></div>  
+            
+            <div class="form-group">  
+                <label>Category</label>  
+                <div class="custom-select-wrapper" id="customCategoryWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomSelect('customCategoryWrapper')">
+                        <span id="customCategoryLabel">iOS</span>
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option selected" onclick="selectCustomOption('customCategoryWrapper', 'iOS', 'iOS')">iOS</div>
+                        <div class="custom-option" onclick="selectCustomOption('customCategoryWrapper', 'Android', 'Android')">Android</div>
+                        <div class="custom-option" onclick="selectCustomOption('customCategoryWrapper', 'PC', 'PC')">PC</div>
+                    </div>
+                    <input type="hidden" id="projectPlatform" value="iOS">
+                </div>
+            </div>  
+
+            <div class="form-group"><label>Price</label><input id="projectPrice" class="form-control" placeholder="1500 LKR"></div>  
+            
+            <div class="form-group">
+                <label>Stock Status</label>
+                <div class="custom-select-wrapper" id="customStockWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomSelect('customStockWrapper')">
+                        <span id="customStockLabel">IN STOCK</span>
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option selected" onclick="selectCustomOption('customStockWrapper', 'true', 'IN STOCK')">IN STOCK</div>
+                        <div class="custom-option" onclick="selectCustomOption('customStockWrapper', 'false', 'OUT OF STOCK')">OUT OF STOCK</div>
+                    </div>
+                    <input type="hidden" id="projectStock" value="true">
+                </div>
+            </div>  
+
+            <div class="form-group"><label>YouTube Video Link</label><input id="projectVideo" class="form-control" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."></div>  
+            <div class="form-group"><label>Description</label><textarea id="projectDescription" class="form-control" rows="3" placeholder="Project details..."></textarea></div>  
+            <div class="form-row">  
+                <button class="btn btn-cancel" onclick="resetProjectForm()">CLEAR</button>  
+                <button id="projectSaveButton" class="btn btn-primary" onclick="saveProject()">SAVE PROJECT</button>  
+            </div>  
+        </div>  
+
+        <!-- ADD PROOF TAB -->
+        <div id="tabProof" class="admin-tab">  
+            <h3 style="margin-bottom:15px">ADD PAYMENT PROOF</h3>  
+            <div class="form-group"><label>Customer Name</label><input id="proofName" class="form-control" placeholder="Customer Name"></div>  
+            <div class="form-group"><label>Image URL</label><input id="proofImage" class="form-control" placeholder="https://..."></div>  
+            <div class="form-group"><label>Proof Details</label><textarea id="proofText" class="form-control" rows="3" placeholder="Payment proof description..."></textarea></div>  
+            <div class="form-row">  
+                <button class="btn btn-cancel" onclick="clearProofForm()">CLEAR</button>  
+                <button class="btn btn-primary" onclick="saveProof()">SAVE PROOF</button>  
+            </div>  
+        </div>  
+
+        <!-- MANAGE TAB -->
+        <div id="tabManage" class="admin-tab">  
+            <h3 style="margin-bottom:15px">ALL PROJECTS</h3>  
+            <div id="adminProjectList" class="admin-list"></div>  
+            
+            <h3 style="margin:25px 0 15px">ALL MOD APPS</h3>  
+            <div id="adminModList" class="admin-list"></div>  
+
+            <h3 style="margin:25px 0 15px">ALL PROOFS</h3>  
+            <div id="adminProofList" class="admin-list"></div>  
+
+            <div class="reset-section">
+                <div class="reset-title">SYSTEM RESTART / DATA RESET</div>
+                <button class="btn-reset" onclick="resetCustomersCount()">🔄 CUSTOMERS RESTART (Reset Customers to 0)</button>
+                <button class="btn-reset" onclick="resetProjectsData()">🔄 PROJECT RESTART (Clear All Projects)</button>
+                <button class="btn-reset" onclick="resetModsData()">🔄 MOD APP RESTART (Clear All Mods)</button>
+                <button class="btn-reset" onclick="resetProofsData()">🔄 PROOF RESTART (Clear Proof Images)</button>
+                <button class="btn-reset" style="background:red; color:white; margin-top:5px;" onclick="resetAllData()">⚠️ RESTART ALL DATA</button>
+            </div>
+        </div>  
+    </div>  
+</div>  
+
+<script>
+let defaultSettings = {  
+    whatsapp: '94712345678',  
+    wachannel: '',
+    telegram: '',  
+    tiktok: '',
+    youtube: '',
+    facebook: '',
+    typing: 'Premium S4G X CHEATZ Assistant',
+    headerLogo: 'https://i.ibb.co/tppN1kF0/logo.jpg',
+    devNumber: '94712345678',
+    devPhoto: 'https://i.ibb.co/R4bCH8PC/dev.jpg',
+    s4gNumber: '94712345678',
+    s4gPhoto: 'https://i.ibb.co/N64f43X2/contact.jpg',
+    notice: ''
+};
+
+let appData = {  
+    products: [],  
+    mods: [],
+    proofs: [],  
+    customers: 0,
+    lastUpdateTimestamp: Date.now(),
+    settings: { ...defaultSettings }  
+};  
+
+let editingProjectId = null;  
+let logoClickCount = 0;
+let logoClickTimer = null;
+
+document.addEventListener('DOMContentLoaded', function(){  
+    loadLocalData();  
+    calculateAutoCustomers();
+    renderEverything();  
+    updateSriLankaClock();
+    
+    setInterval(updateSriLankaClock, 1000);
+    setInterval(calculateAutoCustomers, 60000);
+
+    document.addEventListener('click', function(e){
+        if(!e.target.closest('.custom-select-wrapper')){
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+        }
+    });
+});  
+
+function startWebsite(){
+    const overlay = document.getElementById('playOverlay');
+    if(overlay){
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 400);
+    }
+}
+
+function updateSriLankaClock(){
+    const options = {
+        timeZone: 'Asia/Colombo',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    };
+    const formatter = new Intl.DateTimeFormat([], options);
+    const timeString = formatter.format(new Date());
+    const clockEl = document.getElementById('slClock');
+    if(clockEl) clockEl.textContent = timeString;
+}
+
+function calculateAutoCustomers(){
+    const now = Date.now();
+    const lastTime = appData.lastUpdateTimestamp || now;
+    const diffMs = now - lastTime;
+    
+    const addedCustomers = Math.floor(diffMs / 180000); 
+
+    if(addedCustomers > 0){
+        appData.customers = (appData.customers || 0) + addedCustomers;
+        appData.lastUpdateTimestamp = lastTime + (addedCustomers * 180000);
+        saveData();
+        renderCounts();
+    }
+}
+
+function incrementCustomer(){
+    appData.customers = (appData.customers || 0) + 1;
+    saveData();
+    renderCounts();
+}
+
+function handleModTypeChange(type){
+    const priceGrp = document.getElementById('modPriceGroup');
+    if(type === 'Paid'){
+        priceGrp.style.display = 'block';
+    } else {
+        priceGrp.style.display = 'none';
+        setValue('modPrice', '');
+    }
+}
+
+function loadLocalData(){  
+    try{  
+        const saved = localStorage.getItem('s4g_cheatz_data');  
+        if(saved){  
+            const parsed = JSON.parse(saved);  
+            appData = {  
+                products: Array.isArray(parsed.products) ? parsed.products : [],  
+                mods: Array.isArray(parsed.mods) ? parsed.mods : [],
+                proofs: Array.isArray(parsed.proofs) ? parsed.proofs : [],  
+                customers: typeof parsed.customers === 'number' ? parsed.customers : 0,
+                lastUpdateTimestamp: parsed.lastUpdateTimestamp || Date.now(),
+                settings: {  
+                    ...defaultSettings,  
+                    ...(parsed.settings || {}),
+                    headerLogo: parsed.settings?.headerLogo || defaultSettings.headerLogo,
+                    devPhoto: parsed.settings?.devPhoto || defaultSettings.devPhoto,
+                    s4gPhoto: parsed.settings?.s4gPhoto || defaultSettings.s4gPhoto
+                }  
+            };  
+        }  
+    }catch(error){  
+        console.log('Local Data Read Error:', error);  
+    }  
+}  
+
+function saveData(){  
+    localStorage.setItem('s4g_cheatz_data', JSON.stringify(appData));  
+}  
+
+function toggleCustomSelect(id){
+    const el = document.getElementById(id);
+    document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+        if(w !== el) w.classList.remove('open');
+    });
+    el.classList.toggle('open');
+}
+
+function selectCustomOption(wrapperId, val, label){
+    const wrapper = document.getElementById(wrapperId);
+    wrapper.querySelector('input[type="hidden"]').value = val;
+    wrapper.querySelector('.custom-select-trigger span').textContent = label;
+    
+    wrapper.querySelectorAll('.custom-option').forEach(opt => {
+        if(opt.textContent === label){
+            opt.classList.add('selected');
+        } else {
+            opt.classList.remove('selected');
+        }
+    });
+    wrapper.classList.remove('open');
+}
+
+function getYoutubeEmbedUrl(url) {
+    if (!url) return '';
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    if (match && match[2].length === 11) {
+        return `https://www.youtube-nocookie.com/embed/${match[2]}?autoplay=0&rel=0`;
+    }
+    return url;
+}
+
+function switchPage(pageId){
+    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    const target = document.getElementById(pageId);
+    if(target) target.classList.add('active');
+
+    const navIndex = ['homePage','storyPage','proofsPage','supportPage'].indexOf(pageId);
+    if(navIndex !== -1){
+        document.querySelectorAll('.nav-item')[navIndex].classList.add('active');
+    }
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function openCategory(cat){
+    document.getElementById('categoryTitle').textContent = cat + ' PROJECTS';
+    document.getElementById('categoryBackBtn').setAttribute('onclick', "switchPage('storyPage')");
+    renderCategoryProducts(cat);
+    switchPage('categoryPage');
+}
+
+function openModSelection(){
+    switchPage('modTypePage');
+}
+
+function openModCategory(type){
+    document.getElementById('categoryTitle').textContent = type + ' MOD APPS';
+    document.getElementById('categoryBackBtn').setAttribute('onclick', "switchPage('modTypePage')");
+    renderModProducts(type);
+    switchPage('categoryPage');
+}
+
+function handleLogoClick(){
+    logoClickCount++;
+    clearTimeout(logoClickTimer);
+    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
+
+    if(logoClickCount >= 5){
+        logoClickCount = 0;
+        openModal('loginModal');
+    }
+}
+
+function adminLogin(){
+    const pwd = getValue('adminPassword');
+    if(pwd === '1234'){
+        closeModal('loginModal');
+        setValue('adminPassword', '');
+        openModal('adminModal');
+        showToast('Welcome Admin!');
+    } else {
+        showToast('Incorrect Password!');
+    }
+}
+
+function openModal(id){ document.getElementById(id).classList.add('active'); }
+function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+function closeAdmin(){ closeModal('adminModal'); resetProjectForm(); }
+
+function switchAdminTab(tabId, btn){
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.admin-nav-btns button').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+}
+
+function renderEverything(){
+    renderSettings();
+    renderCounts();
+    renderProofs();
+    renderAdminLists();
+}
+
+let typingTimer = null;
+function startTypingEffect(text){
+    const container = document.getElementById('typingText');
+    if(!container) return;
+    container.textContent = '';
+    let i = 0;
+    if(typingTimer) clearInterval(typingTimer);
+    
+    typingTimer = setInterval(() => {
+        if(i < text.length){
+            container.textContent += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(typingTimer);
+        }
+    }, 100);
+}
+
+function renderSettings(){
+    const s = appData.settings;
+    setValue('settingWhatsapp', s.whatsapp);
+    setValue('settingWaChannel', s.wachannel || '');
+    setValue('settingNotice', s.notice || '');
+    setValue('settingTelegram', s.telegram);
+    setValue('settingTiktok', s.tiktok);
+    setValue('settingYoutube', s.youtube);
+    setValue('settingFacebook', s.facebook);
+    setValue('settingTyping', s.typing);
+    setValue('settingHeaderLogo', s.headerLogo || defaultSettings.headerLogo);
+    setValue('settingDevNumber', s.devNumber || '');
+    setValue('settingDevPhoto', s.devPhoto || defaultSettings.devPhoto);
+    setValue('settingS4gNumber', s.s4gNumber || '');
+    setValue('settingS4gPhoto', s.s4gPhoto || defaultSettings.s4gPhoto);
+
+    const noticeBar = document.getElementById('announcementBar');
+    if(s.notice){
+        noticeBar.textContent = s.notice;
+        noticeBar.style.display = 'block';
+    } else {
+        noticeBar.style.display = 'none';
+    }
+
+    startTypingEffect(s.typing || 'Premium S4G X CHEATZ Assistant');
+    
+    const headerLogoEl = document.getElementById('headerLogoImg');
+    if(headerLogoEl) headerLogoEl.src = s.headerLogo || defaultSettings.headerLogo;
+
+    const waUrl = s.whatsapp ? `https://wa.me/${s.whatsapp.replace(/\D/g,'')}` : '#';
+    document.getElementById('linkWhatsapp').href = waUrl;
+    
+    const waChanUrl = s.wachannel || '#';
+    document.getElementById('linkWaChannel').href = waChanUrl;
+
+    document.getElementById('linkTelegram').href = s.telegram || '#';
+    document.getElementById('linkTiktok').href = s.tiktok || '#';
+    document.getElementById('linkYoutube').href = s.youtube || '#';
+    document.getElementById('linkFb').href = s.facebook || '#';
+
+    const devWaUrl = `https://wa.me/${(s.devNumber||'').replace(/\D/g,'')}?text=Hello%20S4G%20Developer%20Team%20Contact`;
+    document.getElementById('devContactBtn').href = devWaUrl;
+    document.getElementById('devProfileImg').src = s.devPhoto || defaultSettings.devPhoto;
+
+    const s4gWaUrl = `https://wa.me/${(s.s4gNumber||'').replace(/\D/g,'')}?text=Hello%20S4G%20Contact`;
+    document.getElementById('s4gContactBtn').href = s4gWaUrl;
+    document.getElementById('s4gContactImg').src = s.s4gPhoto || defaultSettings.s4gPhoto;
+}
+
+function renderCounts(){
+    const prods = appData.products;
+    const mods = appData.mods || [];
+
+    setText('iosCount', prods.filter(p => p.category === 'iOS').length + ' PRODUCTS');
+    setText('androidCount', prods.filter(p => p.category === 'Android').length + ' PRODUCTS');
+    setText('pcCount', prods.filter(p => p.category === 'PC').length + ' PRODUCTS');
+    setText('modCount', mods.length + ' MODS');
+
+    setText('freeModCount', mods.filter(m => m.type === 'Free').length + ' MODS');
+    setText('paidModCount', mods.filter(m => m.type === 'Paid').length + ' MODS');
+
+    setText('projectCount', prods.length);
+    setText('modApkCount', mods.length);
+    setText('customerCount', appData.customers || 0);
+}
+
+function renderCategoryProducts(category){
+    const container = document.getElementById('categoryProjectsContainer');
+    const filtered = appData.products.filter(p => p.category === category);
+
+    if(filtered.length === 0){
+        container.innerHTML = `<div class="empty-state"><h3>No Projects Available</h3><p>No projects listed under ${category} category yet.</p></div>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map(p => {
+        const isAvailable = p.available !== false;
+        let mediaHtml = '';
+        
+        if(p.video){
+            const embedUrl = getYoutubeEmbedUrl(p.video);
+            mediaHtml = `<div class="project-video">
+                <iframe 
+                    src="${embedUrl}" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>
+            </div>`;
+        }
+
+        return `
+            <div class="project-card">
+                ${mediaHtml}
+                <div class="project-top">
+                    <div>
+                        <div class="project-name">${escapeHTML(p.name)}</div>
+                        <div class="project-platform">${escapeHTML(p.category)}</div>
+                    </div>
+                    <span class="project-stock ${isAvailable ? '' : 'out'}">
+                        ${isAvailable ? 'IN STOCK' : 'OUT OF STOCK'}
+                    </span>
+                </div>
+                <div class="project-price">${escapeHTML(p.price)}</div>
+                <div class="project-description">${escapeHTML(p.description)}</div>
+                <button class="buy-btn" onclick="buyProduct('${p.id}')" ${isAvailable ? '' : 'disabled'}>
+                    ${isAvailable ? 'BUY NOW 🛒' : 'OUT OF STOCK'}
+                </button>
+                <button class="share-btn" onclick="shareItem('${escapeHTML(p.name)}')">🔗 Share Item</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderModProducts(type){
+    const container = document.getElementById('categoryProjectsContainer');
+    const filtered = (appData.mods || []).filter(m => m.type === type);
+
+    if(filtered.length === 0){
+        container.innerHTML = `<div class="empty-state"><h3>No ${type} Mods Available</h3><p>No ${type} Mod Apps listed yet.</p></div>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map(m => `
+        <div class="project-card">
+            <div class="mod-item-header">
+                <img src="${escapeHTML(m.image || 'https://i.ibb.co/tppN1kF0/logo.jpg')}" class="mod-item-img">
+                <div>
+                    <h3 style="font-size:16px;">${escapeHTML(m.name)}</h3>
+                    <small style="color:var(--cyan);">${m.platform || 'Android'}</small>
+                </div>
+            </div>
+            ${m.type === 'Paid' && m.price ? `<div class="project-price">${escapeHTML(m.price)}</div>` : ''}
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <button class="buy-btn" style="${type==='Free'?'background:#00ff66;color:#000;':'background:#ff0055;'}" onclick="handleModClick('${type}', '${escapeHTML(m.link || '')}', '${escapeHTML(m.name)}', '${escapeHTML(m.price || '')}')">
+                    ${type === 'Free' ? 'DOWNLOAD NOW 📥' : 'CONTACT TO BUY 💬'}
+                </button>
+                ${m.link ? `<button class="buy-btn" style="background:#008cff; color:#fff;" onclick="window.open('${escapeHTML(m.link)}', '_blank')">DOWNLOAD LINK 📥</button>` : ''}
+            </div>
+            <button class="share-btn" onclick="shareItem('${escapeHTML(m.name)}')">🔗 Share Mod</button>
+        </div>
+    `).join('');
+}
+
+function shareItem(name){
+    if(navigator.share){
+        navigator.share({
+            title: 'S4G X CHEATZ - ' + name,
+            text: 'Check out ' + name + ' on S4G X CHEATZ Gaming!',
+            url: window.location.href
+        }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Link copied to clipboard!');
+    }
+}
+
+function handleModClick(type, link, name, price){
+    incrementCustomer();
+    if(type === 'Free'){
+        if(link) window.open(link, '_blank');
+        else showToast('No download link provided!');
+    } else {
+        const num = appData.settings.whatsapp;
+        let priceStr = price ? ` for ${price}` : '';
+        const msg = `Hello S4G X CHEATZ, I want to buy this Paid Mod App: ${name}${priceStr}`;
+        window.open(`https://wa.me/${num.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+}
+
+function renderProofs(){
+    const container = document.getElementById('proofsContainer');
+    if(appData.proofs.length === 0){
+        container.innerHTML = `<div class="empty-state"><h3>No Proofs Yet</h3></div>`;
+        return;
+    }
+
+    container.innerHTML = appData.proofs.map(pr => `
+        <div class="proof-card">
+            ${pr.image ? `<img src="${escapeHTML(pr.image)}" class="proof-img" alt="Proof">` : ''}
+            <div>
+                <h4 style="font-size:15px;">${escapeHTML(pr.name || 'Customer')}</h4>
+                <p style="color:var(--text-gray); font-size:12px; margin-top:4px;">${escapeHTML(pr.description || '')}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderAdminLists(){
+    const pList = document.getElementById('adminProjectList');
+    if(appData.products.length === 0){
+        pList.innerHTML = '<small style="color:var(--text-gray)">No projects added.</small>';
+    } else {
+        pList.innerHTML = appData.products.map(p => `
+            <div class="admin-list-item">
+                <div>
+                    <strong>${escapeHTML(p.name)} (${p.category})</strong>
+                    <small>${escapeHTML(p.price)} - ${p.available !== false ? 'In Stock' : 'Out of Stock'}</small>
+                </div>
+                <div>
+                    <button class="edit-btn" onclick="editProject('${p.id}')">EDIT</button>
+                    <button class="delete-btn" onclick="deleteProject('${p.id}')">DELETE</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    const mList = document.getElementById('adminModList');
+    if(!appData.mods || appData.mods.length === 0){
+        mList.innerHTML = '<small style="color:var(--text-gray)">No mods added.</small>';
+    } else {
+        mList.innerHTML = appData.mods.map(m => `
+            <div class="admin-list-item">
+                <div>
+                    <strong>${escapeHTML(m.name)} (${m.type}) ${m.price ? '- ' + escapeHTML(m.price) : ''}</strong>
+                    <small>${m.platform || 'Android'}</small>
+                </div>
+                <div>
+                    <button class="delete-btn" onclick="deleteMod('${m.id}')">DELETE</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    const prList = document.getElementById('adminProofList');
+    if(appData.proofs.length === 0){
+        prList.innerHTML = '<small style="color:var(--text-gray)">No proofs added.</small>';
+    } else {
+        prList.innerHTML = appData.proofs.map(pr => `
+            <div class="admin-list-item">
+                <div>
+                    <strong>${escapeHTML(pr.name || 'Proof')}</strong>
+                    <small>${escapeHTML(pr.description || '')}</small>
+                </div>
+                <div>
+                    <button class="delete-btn" onclick="deleteProof('${pr.id}')">DELETE</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+function saveSettingsFromAdmin(){
+    appData.settings = {
+        whatsapp: getValue('settingWhatsapp'),
+        wachannel: getValue('settingWaChannel'),
+        notice: getValue('settingNotice'),
+        telegram: getValue('settingTelegram'),
+        tiktok: getValue('settingTiktok'),
+        youtube: getValue('settingYoutube'),
+        facebook: getValue('settingFacebook'),
+        typing: getValue('settingTyping'),
+        headerLogo: getValue('settingHeaderLogo') || defaultSettings.headerLogo,
+        devNumber: getValue('settingDevNumber'),
+        devPhoto: getValue('settingDevPhoto') || defaultSettings.devPhoto,
+        s4gNumber: getValue('settingS4gNumber'),
+        s4gPhoto: getValue('settingS4gPhoto') || defaultSettings.s4gPhoto
+    };
+    saveData();
+    renderEverything();
+    showToast('Settings Saved!');
+}
+
+function showUploadNotification(appName){
+    let notif = document.createElement('div');
+    notif.className = 'live-toast-notif';
+    notif.innerHTML = `
+        <span style="font-size:22px;">🔔</span>
+        <div>
+            <strong style="color:#00ffcc; font-size:11px; display:block; letter-spacing:1px;">NEW MOD APP!</strong>
+            <span style="font-size:13px; color:#fff; font-weight:800;">${escapeHTML(appName)} is now available!</span>
+        </div>
+    `;
+    document.body.appendChild(notif);
+    setTimeout(() => { notif.remove(); }, 5000);
+}
+
+function saveMod(){
+    const name = getValue('modName');
+    const image = getValue('modImage');
+    const platform = getValue('modPlatform');
+    const type = getValue('modType');
+    const price = getValue('modPrice');
+    const link = getValue('modLink');
+
+    if(!name){ showToast('Enter Mod Name!'); return; }
+
+    if(!appData.mods) appData.mods = [];
+    appData.mods.unshift({ id: Date.now().toString(36), name, image, platform, type, price, link });
+    saveData();
+    
+    setValue('modName', '');
+    setValue('modImage', '');
+    setValue('modPrice', '');
+    setValue('modLink', '');
+
+    renderEverything();
+    showUploadNotification(name);
+    showToast('MOD App Saved!');
+}
+
+function saveProject(){
+    const name = getValue('projectName');
+    const category = getValue('projectPlatform');
+    const price = getValue('projectPrice');
+    const stock = getValue('projectStock') === 'true';
+    const video = getValue('projectVideo');
+    const description = getValue('projectDescription');
+
+    if(!name){ showToast('Enter project name!'); return; }
+
+    const projectData = {
+        id: editingProjectId || Date.now().toString(36),
+        name, category, price, available: stock, video, description
+    };
+
+    if(editingProjectId){
+        const idx = appData.products.findIndex(p => p.id === editingProjectId);
+        if(idx !== -1) appData.products[idx] = projectData;
+        editingProjectId = null;
+        showToast('Project Updated!');
+    } else {
+        appData.products.unshift(projectData);
+        showUploadNotification(name);
+        showToast('Project Added!');
+    }
+
+    saveData();
+    resetProjectForm();
+    renderEverything();
+}
+
+function editProject(id){
+    const p = appData.products.find(item => item.id === id);
+    if(!p) return;
+
+    editingProjectId = p.id;
+    setValue('projectName', p.name);
+    selectCustomOption('customCategoryWrapper', p.category, p.category);
+    setValue('projectPrice', p.price);
+    selectCustomOption('customStockWrapper', p.available !== false ? 'true' : 'false', p.available !== false ? 'IN STOCK' : 'OUT OF STOCK');
+    setValue('projectVideo', p.video || '');
+    setValue('projectDescription', p.description || '');
+
+    document.getElementById('projectFormTitle').textContent = 'EDIT PROJECT';
+    switchAdminTab('tabProject', document.querySelectorAll('.admin-nav-btns button')[1]);
+}
+
+function deleteProject(id){
+    if(confirm('Delete this project?')){
+        appData.products = appData.products.filter(p => p.id !== id);
+        saveData();
+        renderEverything();
+        showToast('Project Deleted!');
+    }
+}
+
+function deleteMod(id){
+    if(confirm('Delete this mod?')){
+        appData.mods = appData.mods.filter(m => m.id !== id);
+        saveData();
+        renderEverything();
+        showToast('MOD App Deleted!');
+    }
+}
+
+function resetProjectForm(){
+    editingProjectId = null;
+    setValue('projectName', '');
+    setValue('projectPrice', '');
+    setValue('projectVideo', '');
+    setValue('projectDescription', '');
+    selectCustomOption('customCategoryWrapper', 'iOS', 'iOS');
+    selectCustomOption('customStockWrapper', 'true', 'IN STOCK');
+    document.getElementById('projectFormTitle').textContent = 'ADD PROJECT';
+}
+
+function saveProof(){
+    const name = getValue('proofName');
+    const image = getValue('proofImage');
+    const description = getValue('proofText');
+
+    if(!image){ showToast('Provide Image URL!'); return; }
+
+    appData.proofs.unshift({ id: Date.now().toString(36), name, image, description });
+    saveData();
+    clearProofForm();
+    renderEverything();
+    showToast('Proof Added!');
+}
+
+function clearProofForm(){
+    setValue('proofName', '');
+    setValue('proofImage', '');
+    setValue('proofText', '');
+}
+
+function deleteProof(id){
+    if(confirm('Delete this proof?')){
+        appData.proofs = appData.proofs.filter(pr => pr.id !== id);
+        saveData();
+        renderEverything();
+        showToast('Proof Deleted!');
+    }
+}
+
+function resetCustomersCount(){
+    if(confirm('Reset customer count to 0?')){
+        appData.customers = 0;
+        appData.lastUpdateTimestamp = Date.now();
+        saveData();
+        renderEverything();
+        showToast('Customer Count Reset to 0!');
+    }
+}
+
+function resetProjectsData(){
+    if(confirm('Delete ALL Projects from the system?')){
+        appData.products = [];
+        saveData();
+        renderEverything();
+        showToast('All Projects Deleted!');
+    }
+}
+
+function resetModsData(){
+    if(confirm('Delete ALL MOD Apps from the system?')){
+        appData.mods = [];
+        saveData();
+        renderEverything();
+        showToast('All MOD Apps Deleted!');
+    }
+}
+
+function resetProofsData(){
+    if(confirm('Delete ALL Payment Proofs?')){
+        appData.proofs = [];
+        saveData();
+        renderEverything();
+        showToast('All Proofs Cleared!');
+    }
+}
+
+function resetAllData(){
+    if(confirm('WARNING: Reset ALL Projects, Mods, Proofs, and Settings to Default?')){
+        localStorage.removeItem('s4g_cheatz_data');
+        appData = {  
+            products: [],  
+            mods: [],
+            proofs: [],  
+            customers: 0,
+            lastUpdateTimestamp: Date.now(),
+            settings: { ...defaultSettings }  
+        };
+        renderEverything();
+        showToast('System Completely Restarted!');
+    }
+}
+
+function buyProduct(id){
+    incrementCustomer();
+    const p = appData.products.find(item => item.id === id);
+    if(!p) return;
+    const num = appData.settings.whatsapp;
+    if(!num){ showToast('WhatsApp Not Configured!'); return; }
+
+    const msg = `Hello S4G X CHEATZ, I want to buy: ${p.name} (${p.category})`;
+    window.open(`https://wa.me/${num.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function getValue(id){ const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function setValue(id, val){ const el = document.getElementById(id); if(el) el.value = val; }
+function setText(id, val){ const el = document.getElementById
